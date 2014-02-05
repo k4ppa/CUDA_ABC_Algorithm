@@ -18,13 +18,7 @@ void beesWork(Bees bees)
 
 	void assignEmployed(Bees bees)
 	{
-		int i;
-		for (i=NUMBER_OF_ONLOOKER; i<SN; i++)
-		{
-			onlookerPlacement(bees, i);
-			dprintf("ONLOOKER PLACEMENT %d\n", i);
-			printBees(bees);
-		}
+		kernel2(bees);
 	}
 
 	void beesSearch(Bees bees)

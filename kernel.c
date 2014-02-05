@@ -6,3 +6,10 @@ void kernel1(Bees bees)
 	for (i=0; i<NUMBER_OF_EMPLOYED; i++)
 		employedPlacement(bees, i);
 }
+
+void kernel2(Bees bees)
+{
+	int i;
+	for (i=NUMBER_OF_ONLOOKER; i<SN; i++)
+		onlookerPlacement(bees, i);
+}

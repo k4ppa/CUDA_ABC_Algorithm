@@ -4,7 +4,7 @@
 #include "bees.h"
 
 void kernel1(Bees bees);
-void kernel2();
+void kernel2(Bees bees);
 void kernel3();
 
 #endif
