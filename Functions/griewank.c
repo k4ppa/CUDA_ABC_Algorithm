@@ -8,8 +8,7 @@ float formulae(float values[])
 	float result, partialResult;
 	result = calculateSummation(values) / 4000;
 	partialResult = calculateProductsOfSequences(values);
-	//result = add(result, partialResult);
-	//result = add(result, 1.0);
+	
 	return result + partialResult + 1.0;
 }
 
@@ -30,7 +29,6 @@ float formulae(float values[])
 		
 		for (i=0; i<D; i++) {
 			partialResult = values[i] / sqrtf((float) i+1);
-			//result = mul(result, cos(partialResult));
 			result = result * cos(partialResult);
 		}
 		return result;
