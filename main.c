@@ -7,7 +7,6 @@
 #include "timer.h"
 #include "kernel.h"
 
-void assignEmployed(Bees bees);
 void beesSearch(Bees bees);
 
 void beesWork(Bees bees)
@@ -16,20 +15,9 @@ void beesWork(Bees bees)
 	beesSearch(bees);
 }
 
-	void assignEmployed(Bees bees)
-	{
-		kernel2(bees);
-	}
-
 	void beesSearch(Bees bees)
 	{
-		int i;
-		for (i=0; i<SN; i++)
-		{
-			foodExploitation(bees, i);
-			dprintf("FOOD EXPLOITATION %d\n", i);
-			printBees(bees);
-		}
+		kernel3(bees);
 	}
 
 int main()
