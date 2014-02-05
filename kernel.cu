@@ -1,11 +1,14 @@
 #include "kernel.h"
 
-void inizializeBees(Bees bees)
+void inizializeBees(Bees dev_bees)
 {
-	int i;
+	/*int i;
 	for (i=0; i<NUMBER_OF_EMPLOYED; i++)
-		employedPlacement(bees, i);
+		employedPlacement(bees, i);*/
+	cudaEmployedPlacement<<<1, SN>>>(dev_bees);
 }
+
+
 
 void beesWork(Bees bees)
 {

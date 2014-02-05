@@ -3,7 +3,7 @@
 
 #include "bees.h"
 
-void inizializeBees(Bees bees);
+void inizializeBees(Bees dev_bees);
 void beesWork(Bees bees);
 	void assignEmployed(Bees bees);
 	void beesSearch(Bees bees);

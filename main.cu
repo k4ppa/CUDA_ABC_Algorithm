@@ -12,7 +12,7 @@ int main()
 {
 	clock_t begin;
 	int cycles;
-	Bees *dev_bees;
+	Bees dev_bees;
 	Bees bees = (Bees) malloc(sizeof (struct bees));
 	BestBee bestBee = (BestBee) malloc(sizeof (struct bestBee));
 
@@ -24,7 +24,7 @@ int main()
 	setInizializedFalse(bestBee);
 	initializeType(bees);
 	cudaMemcpy(dev_bees, bees, sizeof(Bees), cudaMemcpyHostToDevice);
-	inizializeBees(bees);
+	inizializeBees(dev_bees);
 
 	for (cycles=0; cycles<MAX_CYCLES; cycles++) 
 	{

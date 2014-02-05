@@ -16,46 +16,52 @@ void initializeType(Bees bees)
 	}
 
 
-
-void employedPlacement(Bees bees, int i)
+__global__ void cudaEmployedPlacement(Bees bees)
 {
-	float fitness;
-	if (isEmployed(bees, i)) 
-	{
-		generateNewPosition(bees, i);
-		fitness = evaluateFitness(bees->positions[i]);
-		setFitness(bees, i, fitness);
-		setTrial(bees, i, 0);
-		//setP(bees, i, 0.0);
-	}
+	int i = threadIdx.x;
+	employedPlacement(bees, i);
 }
+
+	__device__ void employedPlacement(Bees bees, int i)
+	{
+		float fitness;
 	
-	BOOL isEmployed(Bees bees, int i)
-	{
-		return getType(bees, i) == EMPLOYED;
-	}
-
-	void generateNewPosition(Bees bees, int i)
-	{
-		int y;
-		for (y=0; y<D; y++)
-			bees->positions[i][y] = chooseRandomValueBetweenRange(MIN_SEARCH_RANGE, MAX_SEARCH_RANGE);
-	}
-
-		float chooseRandomValueBetweenRange(float lowerBound, float upperBound)
+		if (isEmployed(bees, i)) 
 		{
-			float random = ((float) rand()) / (float) RAND_MAX;
-			float range = upperBound - lowerBound;
-			return lowerBound + (random * range);
+			generateNewPosition(bees, i);
+			fitness = evaluateFitness(bees->positions[i]);
+			setFitness(bees, i, fitness);
+			setTrial(bees, i, 0);
+			//setP(bees, i, 0.0);
+		}
+	}
+	
+		__device__ BOOL isEmployed(Bees bees, int i)
+		{
+			return getType(bees, i) == EMPLOYED;
 		}
 
-	float evaluateFitness(float position[])
-	{
-		float fitness = formulae(position);
-		//if (fitness == 0.0)
-			//return 1;
-		return fabs(fitness);
-	}
+		__device__ void generateNewPosition(Bees bees, int i)
+		{
+			int y;
+			for (y=0; y<D; y++)
+				bees->positions[i][y] = chooseRandomValueBetweenRange(MIN_SEARCH_RANGE, MAX_SEARCH_RANGE);
+		}
+
+			__device__ float chooseRandomValueBetweenRange(float lowerBound, float upperBound)
+			{
+				float random = ((float) rand()) / (float) RAND_MAX;
+				float range = upperBound - lowerBound;
+				return lowerBound + (random * range);
+			}
+
+		__device__ float evaluateFitness(float position[])
+		{
+			float fitness = formulae(position);
+			//if (fitness == 0.0)
+				//return 1;
+			return fabs(fitness);
+		}
 		
 			
 

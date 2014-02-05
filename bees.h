@@ -32,11 +32,12 @@ void initializeType(Bees bees);
 	void chooseBeeType(Bees bees, int i);
 			
 
-void employedPlacement(Bees bees, int);
-	BOOL isEmployed(Bees bees, int i);
-	void generateNewPosition(Bees bees, int i);
-		float chooseRandomValueBetweenRange(float lowerBound, float upperBound);
-	float evaluateFitness(float position[]);
+__global__ void cudaEmployedPlacement(Bees bees);
+	__device__ void employedPlacement(Bees bees, int i);
+		__device__ BOOL isEmployed(Bees bees, int i);
+		__device__ void generateNewPosition(Bees bees, int i);
+			__device__ float chooseRandomValueBetweenRange(float lowerBound, float upperBound);
+		__device__ float evaluateFitness(float position[]);
 
 
 void onlookerPlacement(Bees bees, int i);
@@ -64,10 +65,10 @@ void foodExploitation(Bees bees, int i);
 	
 
 void setType(Bees bees, int i, unsigned int newType);
-unsigned int getType(Bees bees, int i);
-void setTrial(Bees bees, int i, int newTrial);
+__device__ unsigned int getType(Bees bees, int i);
+__device__ void setTrial(Bees bees, int i, int newTrial);
 int getTrial(Bees bees, int i);
-void setFitness(Bees bees, int i, float newFitness);
+__device__ void setFitness(Bees bees, int i, float newFitness);
 float getFitness(Bees bees, int i);
 void setP(Bees bees, int i, float newP);
 float getP(Bees bees, int i);
