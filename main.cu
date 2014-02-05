@@ -6,13 +6,17 @@
 #include "printBees.h"
 #include "timer.h"
 #include "kernel.h"
+#include "cuda.h"
 
 int main()
 {
 	clock_t begin;
-	int i, cycles;
+	int cycles;
+	Bees *dev_bees;
 	Bees bees = (Bees) malloc(sizeof (struct bees));
 	BestBee bestBee = (BestBee) malloc(sizeof (struct bestBee));
+
+	cudaMalloc((void**) &dev_bees, sizeof(Bees));
 	
 	srand(time(0));
 	begin = startTimer();
@@ -32,6 +36,9 @@ int main()
 	printBestBee(bestBee);
 
 	finishTimer(begin);
+
+	cudaFree(dev_bees);
+
 	free(bees);
 	free(bestBee);
 	system("PAUSE");
