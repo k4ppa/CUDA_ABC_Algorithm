@@ -5,6 +5,7 @@
 #include "bestPosition.h"
 #include "printBees.h"
 #include "timer.h"
+#include "kernel.h"
 
 void assignEmployed(Bees bees);
 void beesSearch(Bees bees);
@@ -49,8 +50,7 @@ int main()
 
 	setInizializedFalse(bestBee);
 	initializeType(bees);
-	for (i=0; i<NUMBER_OF_EMPLOYED; i++)
-		employedPlacement(bees, i);
+	kernel1(bees);
 
 	for (cycles=0; cycles<MAX_CYCLES; cycles++) 
 	{
