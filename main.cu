@@ -23,14 +23,14 @@ int main()
 
 	setInizializedFalse(bestBee);
 	initializeType(bees);
+	cudaMemcpy(dev_bees, bees, sizeof(Bees), cudaMemcpyHostToDevice);
 	inizializeBees(bees);
 
 	for (cycles=0; cycles<MAX_CYCLES; cycles++) 
 	{
 		beesWork(bees);
-		//printBees(bees);
+		cudaMemcpy(bees, dev_bees, sizeof(Bees), cudaMemcpyDeviceToHost);
 		saveBestPosition(bestBee, bees);
-		//printBestBee(bestBee);
 	}
 
 	printBestBee(bestBee);
