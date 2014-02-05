@@ -19,7 +19,7 @@ int main()
 
 	setInizializedFalse(bestBee);
 	initializeType(bees);
-	kernel1(bees);
+	inizializeBees(bees);
 
 	for (cycles=0; cycles<MAX_CYCLES; cycles++) 
 	{
