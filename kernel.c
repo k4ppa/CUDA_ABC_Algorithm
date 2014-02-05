@@ -14,7 +14,7 @@ void assignEmployed(Bees bees)
 		onlookerPlacement(bees, i);
 }
 
-void kernel3(Bees bees)
+void beesSearch(Bees bees)
 {
 	int i;
 	for (i=0; i<SN; i++)

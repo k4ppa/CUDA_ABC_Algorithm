@@ -7,18 +7,11 @@
 #include "timer.h"
 #include "kernel.h"
 
-void beesSearch(Bees bees);
-
 void beesWork(Bees bees)
 {
 	assignEmployed(bees);
 	beesSearch(bees);
 }
-
-	void beesSearch(Bees bees)
-	{
-		kernel3(bees);
-	}
 
 int main()
 {
