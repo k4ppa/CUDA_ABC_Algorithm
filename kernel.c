@@ -7,16 +7,22 @@ void kernel1(Bees bees)
 		employedPlacement(bees, i);
 }
 
-void assignEmployed(Bees bees)
+void beesWork(Bees bees)
 {
-	int i;
-	for (i=NUMBER_OF_ONLOOKER; i<SN; i++)
-		onlookerPlacement(bees, i);
+	assignEmployed(bees);
+	beesSearch(bees);
 }
 
-void beesSearch(Bees bees)
-{
-	int i;
-	for (i=0; i<SN; i++)
-		foodExploitation(bees, i);
-}
+	void assignEmployed(Bees bees)
+	{
+		int i;
+		for (i=NUMBER_OF_ONLOOKER; i<SN; i++)
+			onlookerPlacement(bees, i);
+	}
+
+	void beesSearch(Bees bees)
+	{
+		int i;
+		for (i=0; i<SN; i++)
+			foodExploitation(bees, i);
+	}

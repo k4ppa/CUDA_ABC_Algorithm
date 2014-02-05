@@ -4,7 +4,8 @@
 #include "bees.h"
 
 void kernel1(Bees bees);
-void assignEmployed(Bees bees);
-void beesSearch(Bees bees);
+void beesWork(Bees bees);
+	void assignEmployed(Bees bees);
+	void beesSearch(Bees bees);
 
 #endif

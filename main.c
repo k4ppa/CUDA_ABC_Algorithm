@@ -7,12 +7,6 @@
 #include "timer.h"
 #include "kernel.h"
 
-void beesWork(Bees bees)
-{
-	assignEmployed(bees);
-	beesSearch(bees);
-}
-
 int main()
 {
 	clock_t begin;
