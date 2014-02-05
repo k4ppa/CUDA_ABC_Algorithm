@@ -9,3 +9,4 @@ mpir.h
 mpir.lib
 ipch
 Debug
+vc100.pdb
