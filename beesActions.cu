@@ -50,7 +50,8 @@ __global__ void cudaEmployedPlacement(Bees bees)
 
 			__device__ float chooseRandomValueBetweenRange(float lowerBound, float upperBound)
 			{
-				float random = ((float) rand()) / (float) RAND_MAX;
+				int tid = threadIdx.x;
+				float random = curand_uniform(&state[tid]);;
 				float range = upperBound - lowerBound;
 				return lowerBound + (random * range);
 			}
