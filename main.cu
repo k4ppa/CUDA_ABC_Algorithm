@@ -8,16 +8,25 @@
 #include "kernel.h"
 #include "cuda.h"
 
+__global__ void init_curand(curandState *state, time_t time) {
+	int idx = threadIdx.x;
+	curand_init(time, idx, 0, &state[idx]);
+}
+
 int main()
 {
 	clock_t begin;
 	int cycles;
 	Bees dev_bees;
+	curandState *d_state;
 	Bees bees = (Bees) malloc(sizeof (struct bees));
 	BestBee bestBee = (BestBee) malloc(sizeof (struct bestBee));
 
 	cudaMalloc((void**) &dev_bees, sizeof(Bees));
-	
+	cudaMalloc(&d_state, SN);
+
+	init_curand<<<1, SN>>>(d_state, time(0));
+
 	srand(time(0));
 	begin = startTimer();
 
@@ -38,6 +47,7 @@ int main()
 	finishTimer(begin);
 
 	cudaFree(dev_bees);
+	cudaFree(d_state);
 
 	free(bees);
 	free(bestBee);
