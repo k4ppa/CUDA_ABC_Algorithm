@@ -104,7 +104,7 @@ void onlookerPlacement(Bees bees, int i)
 		int selectedEmployed = tournamentEmployedSelection(bees);
 		moveOnlookerInPosition(bees, i, selectedEmployed);
 	}
-
+/*
 		int rouletteWheelEmployedSelection(Bees bees)
 		{
 			float totalFitness = getFitness(bees, 0);
@@ -117,7 +117,7 @@ void onlookerPlacement(Bees bees, int i)
 			}
 			return 0;
 		}
-
+*/
 		int tournamentEmployedSelection(Bees bees)
 		{
 			int tournamentIndex[calcolateTournamentSize()];
@@ -153,12 +153,12 @@ void onlookerPlacement(Bees bees, int i)
 	
 
 
-void foodExploitation(Bees bees, int i)
+void foodExploitation(Bees bees, int i, curandState *randState)
 {
 	if (hasExceededTheLimit(bees, i))
-		resetBee(bees, i);
+		resetBee(bees, i, randState);
 	else
-		tryToFindBetterPosition(bees, i);
+		tryToFindBetterPosition(bees, i, randState);
 }
 
 	BOOL hasExceededTheLimit(Bees bees, int i)
@@ -167,7 +167,7 @@ void foodExploitation(Bees bees, int i)
 	}
 
 
-	void resetBee(Bees bees, int i)
+	void resetBee(Bees bees, int i, curandState *randState)
 	{
 		if (isEmployed(bees, i))
 			employedPlacement(bees, i, randState);
@@ -175,20 +175,20 @@ void foodExploitation(Bees bees, int i)
 			setType(bees, i, UNASSIGNED_ONLOOKER);
 	}
 
-	void tryToFindBetterPosition(Bees bees, int i)
+	void tryToFindBetterPosition(Bees bees, int i, curandState *randState)
 	{
 		float perturbedPosition[D];
-		generatePerturbedPosition(bees, i, perturbedPosition);
+		generatePerturbedPosition(bees, i, perturbedPosition, randState);
 		chooseBestPosition(bees, i, perturbedPosition);
 	}
 
-	void generatePerturbedPosition(Bees bees, int i, float perturbedPosition[])
+	void generatePerturbedPosition(Bees bees, int i, float perturbedPosition[], curandState *randState)
 	{
 		int y, k;
 		for (y=0; y<D; y++)
 		{
 			k = chooseIndex(i);
-			perturbedPosition[y] = bees->positions[i][y] + chooseRandomValueBetweenRange(-1.0, 1.0) * (bees->positions[i][y] - bees->positions[k][y]);
+			perturbedPosition[y] = bees->positions[i][y] + chooseRandomValueBetweenRange(-1.0, 1.0, randState) * (bees->positions[i][y] - bees->positions[k][y]);
 			controlifExceedSearchField(perturbedPosition, y);
 		}
 	}

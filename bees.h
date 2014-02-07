@@ -46,18 +46,18 @@ void onlookerPlacement(Bees bees, int i);
 	void generateEmployedP(Bees bees, int i);
 		float calcolateP(Bees bees, int i);
 	void chooseOnlookerPosition(Bees bees, int i);
-		int rouletteWheelEmployedSelection(Bees bees);
+//		int rouletteWheelEmployedSelection(Bees bees);
 		int tournamentEmployedSelection(Bees bees);
 			int winnerTournament(Bees bees, int tournamentIndex[]);
 		void moveOnlookerInPosition(Bees bees, int i, int selectedEmployed);
 	BOOL isUnassignedOnlooker(Bees bees, int i);
 
 
-void foodExploitation(Bees bees, int i);
+void foodExploitation(Bees bees, int i, curandState *randState);
 	BOOL hasExceededTheLimit(Bees bees, int i);
-	void resetBee(Bees bees, int i);
-	void tryToFindBetterPosition(Bees bees, int i);
-	void generatePerturbedPosition(Bees bees, int i, float perturbedPosition[]);
+	void resetBee(Bees bees, int i, curandState *randState);
+	void tryToFindBetterPosition(Bees bees, int i, curandState *randState);
+	void generatePerturbedPosition(Bees bees, int i, float perturbedPosition[], curandState *randState);
 		int chooseIndex(int i);
 		void controlifExceedSearchField(float newPosition[], int y);
 	void chooseBestPosition(Bees bees, int i, float perturbedPosition[]);
