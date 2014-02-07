@@ -16,19 +16,19 @@ void initializeType(Bees bees)
 	}
 
 
-__global__ void cudaEmployedPlacement(Bees bees)
+__global__ void cudaEmployedPlacement(Bees bees, curandState *randState)
 {
 	int i = threadIdx.x;
-	employedPlacement(bees, i);
+	employedPlacement(bees, i, randState);
 }
 
-	__device__ void employedPlacement(Bees bees, int i)
+	__device__ void employedPlacement(Bees bees, int i, curandState *randState)
 	{
 		float fitness;
 	
 		if (isEmployed(bees, i)) 
 		{
-			generateNewPosition(bees, i);
+			generateNewPosition(bees, i, randState);
 			fitness = evaluateFitness(bees->positions[i]);
 			setFitness(bees, i, fitness);
 			setTrial(bees, i, 0);
@@ -41,17 +41,17 @@ __global__ void cudaEmployedPlacement(Bees bees)
 			return getType(bees, i) == EMPLOYED;
 		}
 
-		__device__ void generateNewPosition(Bees bees, int i)
+		__device__ void generateNewPosition(Bees bees, int i, curandState *randState)
 		{
 			int y;
 			for (y=0; y<D; y++)
-				bees->positions[i][y] = chooseRandomValueBetweenRange(MIN_SEARCH_RANGE, MAX_SEARCH_RANGE);
+				bees->positions[i][y] = chooseRandomValueBetweenRange(MIN_SEARCH_RANGE, MAX_SEARCH_RANGE, randState);
 		}
 
-			__device__ float chooseRandomValueBetweenRange(float lowerBound, float upperBound)
+			__device__ float chooseRandomValueBetweenRange(float lowerBound, float upperBound, curandState *randState)
 			{
 				int tid = threadIdx.x;
-				float random = curand_uniform(&state[tid]);;
+				float random = curand_uniform(&randState[tid]);;
 				float range = upperBound - lowerBound;
 				return lowerBound + (random * range);
 			}
@@ -170,7 +170,7 @@ void foodExploitation(Bees bees, int i)
 	void resetBee(Bees bees, int i)
 	{
 		if (isEmployed(bees, i))
-			employedPlacement(bees, i);
+			employedPlacement(bees, i, randState);
 		else
 			setType(bees, i, UNASSIGNED_ONLOOKER);
 	}

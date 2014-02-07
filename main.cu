@@ -7,10 +7,11 @@
 #include "timer.h"
 #include "kernel.h"
 #include "cuda.h"
+#include "curand_kernel.h"
 
-__global__ void init_curand(curandState *state, time_t time) {
-	int idx = threadIdx.x;
-	curand_init(time, idx, 0, &state[idx]);
+__global__ void init_curand(curandState *randState, time_t time) {
+	int tid = threadIdx.x;
+	curand_init(time, tid, 0, &randState[tid]);
 }
 
 int main()
@@ -18,14 +19,14 @@ int main()
 	clock_t begin;
 	int cycles;
 	Bees dev_bees;
-	curandState *d_state;
+	curandState *dev_randState;
 	Bees bees = (Bees) malloc(sizeof (struct bees));
 	BestBee bestBee = (BestBee) malloc(sizeof (struct bestBee));
 
 	cudaMalloc((void**) &dev_bees, sizeof(Bees));
-	cudaMalloc(&d_state, SN);
+	cudaMalloc(&dev_randState, SN);
 
-	init_curand<<<1, SN>>>(d_state, time(0));
+	init_curand<<<1, SN>>>(dev_randState, time(0));
 
 	srand(time(0));
 	begin = startTimer();
@@ -33,7 +34,7 @@ int main()
 	setInizializedFalse(bestBee);
 	initializeType(bees);
 	cudaMemcpy(dev_bees, bees, sizeof(Bees), cudaMemcpyHostToDevice);
-	inizializeBees(dev_bees);
+	inizializeBees(dev_bees, dev_randState);
 
 	for (cycles=0; cycles<MAX_CYCLES; cycles++) 
 	{
@@ -47,7 +48,7 @@ int main()
 	finishTimer(begin);
 
 	cudaFree(dev_bees);
-	cudaFree(d_state);
+	cudaFree(dev_randState);
 
 	free(bees);
 	free(bestBee);

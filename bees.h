@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include "types.h"
 #include "costant.h"
+#include "curand_kernel.h"
+#include "cuda.h"
 #include "Functions/sphere.h"
 #include "Functions/rosenbrock.h"
 #include "Functions/ackley.h"
@@ -32,11 +34,11 @@ void initializeType(Bees bees);
 	void chooseBeeType(Bees bees, int i);
 			
 
-__global__ void cudaEmployedPlacement(Bees bees);
-	__device__ void employedPlacement(Bees bees, int i);
+__global__ void cudaEmployedPlacement(Bees bees, curandState *randState);
+	__device__ void employedPlacement(Bees bees, int i, curandState *randState);
 		__device__ BOOL isEmployed(Bees bees, int i);
-		__device__ void generateNewPosition(Bees bees, int i);
-			__device__ float chooseRandomValueBetweenRange(float lowerBound, float upperBound);
+		__device__ void generateNewPosition(Bees bees, int i, curandState *randState);
+			__device__ float chooseRandomValueBetweenRange(float lowerBound, float upperBound, curandState *randState);
 		__device__ float evaluateFitness(float position[]);
 
 
