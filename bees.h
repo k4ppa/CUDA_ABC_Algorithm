@@ -24,11 +24,10 @@ struct bees
 	Flag type[SN];
 	float positions[SN][D];
 	float fitness[SN];
-	float p[NUMBER_OF_EMPLOYED];
+	//float p[NUMBER_OF_EMPLOYED];
 	int trial[SN];
 };
 typedef struct bees *Bees;
-
 
 void initializeType(Bees bees);
 	void chooseBeeType(Bees bees, int i);
@@ -41,7 +40,7 @@ __global__ void cudaEmployedPlacement(Bees bees, curandState *randState);
 			__device__ float chooseRandomValueBetweenRange(float lowerBound, float upperBound, curandState *randState);
 		__device__ float evaluateFitness(float position[]);
 
-
+/*
 void onlookerPlacement(Bees bees, int i);
 	void generateEmployedP(Bees bees, int i);
 		float calcolateP(Bees bees, int i);
@@ -64,16 +63,16 @@ void foodExploitation(Bees bees, int i, curandState *randState);
 		BOOL isPerturbedFitnessBetter(Bees bees, int i, float perturbedFitness);
 		void replacePosition(Bees bees, int i, float perturbedPosition[], float perturbedFitness);
 		void increaseTrial(Bees bees, int i);
-	
+*/	
 
 void setType(Bees bees, int i, unsigned int newType);
-__device__ unsigned int getType(Bees bees, int i);
+__host__ __device__ unsigned int getType(Bees bees, int i);
 __device__ void setTrial(Bees bees, int i, int newTrial);
 int getTrial(Bees bees, int i);
 __device__ void setFitness(Bees bees, int i, float newFitness);
 float getFitness(Bees bees, int i);
-void setP(Bees bees, int i, float newP);
-float getP(Bees bees, int i);
+//void setP(Bees bees, int i, float newP);
+//float getP(Bees bees, int i);
 void setPosition(Bees bees, int i, float newPosition[]);
 float *getPosition(Bees bees, int i);
 			

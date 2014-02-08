@@ -65,7 +65,7 @@ __global__ void cudaEmployedPlacement(Bees bees, curandState *randState)
 		}
 		
 			
-
+/*
 void onlookerPlacement(Bees bees, int i)
 {
 	//generateEmployedP(bees, i);
@@ -104,7 +104,7 @@ void onlookerPlacement(Bees bees, int i)
 		int selectedEmployed = tournamentEmployedSelection(bees);
 		moveOnlookerInPosition(bees, i, selectedEmployed);
 	}
-/*
+
 		int rouletteWheelEmployedSelection(Bees bees)
 		{
 			float totalFitness = getFitness(bees, 0);
@@ -117,7 +117,7 @@ void onlookerPlacement(Bees bees, int i)
 			}
 			return 0;
 		}
-*/
+
 		int tournamentEmployedSelection(Bees bees)
 		{
 			int tournamentIndex[calcolateTournamentSize()];
@@ -238,3 +238,4 @@ void foodExploitation(Bees bees, int i, curandState *randState)
 			int trial = getTrial(bees, i);
 			setTrial(bees, i, trial+1);
 		}
+*/

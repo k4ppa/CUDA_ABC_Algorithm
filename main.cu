@@ -23,7 +23,7 @@ int main()
 	Bees bees = (Bees) malloc(sizeof (struct bees));
 	BestBee bestBee = (BestBee) malloc(sizeof (struct bestBee));
 
-	cudaMalloc((void**) &dev_bees, sizeof(Bees));
+	cudaMalloc((void**) &dev_bees, sizeof(struct bees));
 	cudaMalloc(&dev_randState, SN);
 
 	init_curand<<<1, SN>>>(dev_randState, time(0));
@@ -33,9 +33,12 @@ int main()
 
 	setInizializedFalse(bestBee);
 	initializeType(bees);
-	cudaMemcpy(dev_bees, bees, sizeof(Bees), cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_bees, bees, sizeof(struct bees), cudaMemcpyHostToDevice);
 	inizializeBees(dev_bees, dev_randState);
 
+	cudaMemcpy(bees, dev_bees, sizeof(struct bees), cudaMemcpyDeviceToHost);
+	printBees(bees);
+/*
 	for (cycles=0; cycles<MAX_CYCLES; cycles++) 
 	{
 		beesWork(bees);
@@ -44,7 +47,7 @@ int main()
 	}
 
 	printBestBee(bestBee);
-
+*/
 	finishTimer(begin);
 
 	cudaFree(dev_bees);

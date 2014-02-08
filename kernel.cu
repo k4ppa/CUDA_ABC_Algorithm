@@ -9,7 +9,7 @@ void inizializeBees(Bees dev_bees, curandState *dev_randState)
 }
 
 
-
+/*
 void beesWork(Bees bees)
 {
 	assignEmployed(bees);
@@ -29,3 +29,4 @@ void beesWork(Bees bees)
 		for (i=0; i<SN; i++)
 			foodExploitation(bees, i);
 	}
+*/

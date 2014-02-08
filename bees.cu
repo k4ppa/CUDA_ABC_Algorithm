@@ -5,7 +5,7 @@ void setType(Bees bees, int i, unsigned int newType)
 	setBits(&bees->type[i], newType);
 }
 
-__device__ unsigned int getType(Bees bees, int i)
+__host__ __device__ unsigned int getType(Bees bees, int i)
 {
 	return getBits(&bees->type[i]);
 }
@@ -29,7 +29,7 @@ float getFitness(Bees bees, int i)
 {
 	return bees->fitness[i];
 }
-
+/*
 void setP(Bees bees, int i, float newP)
 {
 	bees->p[i] = newP;
@@ -39,7 +39,7 @@ float getP(Bees bees, int i)
 {
 	return bees->p[i];
 }
-
+*/
 void setPosition(Bees bees, int i, float newPosition[])
 {
 	int y;
