@@ -15,7 +15,7 @@ __device__ void setTrial(Bees bees, int i, int newTrial)
 	bees->trial[i] = newTrial;
 }
 
-int getTrial(Bees bees, int i)
+__host__ __device__ int getTrial(Bees bees, int i)
 {
 	return bees->trial[i];
 }

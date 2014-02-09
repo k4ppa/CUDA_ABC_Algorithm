@@ -13,7 +13,7 @@ void inizializeBees(Bees dev_bees, curandState *dev_randState)
 void beesWork(Bees dev_bees, curandState *dev_randState)
 {
 	assignEmployed(dev_bees, dev_randState);
-	//beesSearch(bees);
+	beesSearch(dev_bees, dev_randState);
 }
 
 	void assignEmployed(Bees dev_bees, curandState *dev_randState)
@@ -23,11 +23,11 @@ void beesWork(Bees dev_bees, curandState *dev_randState)
 			onlookerPlacement(bees, i);*/
 		cudaOnlookerPlacement<<<1, SN>>>(dev_bees, dev_randState);
 	}
-/*
-	void beesSearch(Bees bees)
+
+	void beesSearch(Bees dev_bees, curandState *dev_randState)
 	{
-		int i;
+		/*int i;
 		for (i=0; i<SN; i++)
-			foodExploitation(bees, i);
+			foodExploitation(bees, i);*/
+		cudaFoodExploitation<<<1, SN>>>(dev_bees, dev_randState);
 	}
-*/

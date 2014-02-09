@@ -6,6 +6,6 @@
 void inizializeBees(Bees dev_bees, curandState *dev_randState);
 void beesWork(Bees dev_bees, curandState *dev_randStates);
 	void assignEmployed(Bees dev_bees, curandState *dev_randState);
-	void beesSearch(Bees bees);
+	void beesSearch(Bees dev_bees, curandState *dev_randState);
 
 #endif

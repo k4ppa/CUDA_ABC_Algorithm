@@ -38,13 +38,14 @@ int main()
 
 	//printBees(bees);
 
-	//for (cycles=0; cycles<MAX_CYCLES; cycles++) 
-	//{
+	for (cycles=0; cycles<MAX_CYCLES; cycles++) 
+	{
 		beesWork(dev_bees, dev_randState);
 		cudaMemcpy(bees, dev_bees, sizeof(struct bees), cudaMemcpyDeviceToHost);
 		//saveBestPosition(bestBee, bees);
-	//}
-	printBees(bees);
+		printBees(bees);
+	}
+	
 	//printBestBee(bestBee);
 
 	finishTimer(begin);

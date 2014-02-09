@@ -161,90 +161,96 @@ __global__ void cudaOnlookerPlacement(Bees bees, curandState *randState)
 			}
 	
 
-/*
-void foodExploitation(Bees bees, int i, curandState *randState)
+
+__global__ void cudaFoodExploitation(Bees bees, curandState *randState)
 {
-	if (hasExceededTheLimit(bees, i))
-		resetBee(bees, i, randState);
-	else
-		tryToFindBetterPosition(bees, i, randState);
+	int i = threadIdx.x;
+	foodExploitation(bees, i, randState);
 }
 
-	BOOL hasExceededTheLimit(Bees bees, int i)
+	__device__ void foodExploitation(Bees bees, int i, curandState *randState)
 	{
-		return getTrial(bees, i) > LIMIT;
-	}
-
-
-	void resetBee(Bees bees, int i, curandState *randState)
-	{
-		if (isEmployed(bees, i))
-			employedPlacement(bees, i, randState);
+		if (hasExceededTheLimit(bees, i))
+			resetBee(bees, i, randState);
 		else
-			setType(bees, i, UNASSIGNED_ONLOOKER);
+			tryToFindBetterPosition(bees, i, randState);
 	}
 
-	void tryToFindBetterPosition(Bees bees, int i, curandState *randState)
-	{
-		float perturbedPosition[D];
-		generatePerturbedPosition(bees, i, perturbedPosition, randState);
-		chooseBestPosition(bees, i, perturbedPosition);
-	}
-
-	void generatePerturbedPosition(Bees bees, int i, float perturbedPosition[], curandState *randState)
-	{
-		int y, k;
-		for (y=0; y<D; y++)
+		__device__ BOOL hasExceededTheLimit(Bees bees, int i)
 		{
-			k = chooseIndex(i);
-			perturbedPosition[y] = bees->positions[i][y] + chooseRandomValueBetweenRange(-1.0, 1.0, randState) * (bees->positions[i][y] - bees->positions[k][y]);
-			controlifExceedSearchField(perturbedPosition, y);
-		}
-	}
-
-		int chooseIndex(int i)
-		{
-			int index;
-			do
-				index = (rand() % (SN - 0)) + 0;
-			while (index == i);
-
-			return index;
+			return getTrial(bees, i) > LIMIT;
 		}
 
-		void controlifExceedSearchField(float newPosition[], int y)
+
+		__device__ void resetBee(Bees bees, int i, curandState *randState)
 		{
-			if (newPosition[y] > MAX_SEARCH_RANGE)
-				newPosition[y] = MAX_SEARCH_RANGE;
-			else if (newPosition[y] < MIN_SEARCH_RANGE)
-				newPosition[y] = MIN_SEARCH_RANGE;
+			if (isEmployed(bees, i))
+				employedPlacement(bees, i, randState);
+			else
+				setType(bees, i, UNASSIGNED_ONLOOKER);
 		}
 
-	void chooseBestPosition(Bees bees, int i, float perturbedPosition[])
-	{
-		float perturbedFitness = evaluateFitness(perturbedPosition);
-
-		if (isPerturbedFitnessBetter(bees, i, perturbedFitness))
-			replacePosition(bees, i, perturbedPosition, perturbedFitness);	
-		else
-			increaseTrial(bees, i);
-	}
-
-		BOOL isPerturbedFitnessBetter(Bees bees, int i, float perturbedFitness)
+		__device__ void tryToFindBetterPosition(Bees bees, int i, curandState *randState)
 		{
-			return getFitness(bees, i) > perturbedFitness;
+			float perturbedPosition[D];
+			generatePerturbedPosition(bees, i, perturbedPosition, randState);
+			chooseBestPosition(bees, i, perturbedPosition);
 		}
 
-		void replacePosition(Bees bees, int i, float perturbedPosition[], float perturbedFitness)
+		__device__ void generatePerturbedPosition(Bees bees, int i, float perturbedPosition[], curandState *randState)
 		{
-			setPosition(bees, i, perturbedPosition);
-			setFitness(bees, i, perturbedFitness);
-			setTrial(bees, i, 0);
+			int y, k;
+			for (y=0; y<D; y++)
+			{
+				k = chooseIndex(i, randState);
+				perturbedPosition[y] = bees->positions[i][y] + chooseRandomValueBetweenRange(-1.0, 1.0, randState) * (bees->positions[i][y] - bees->positions[k][y]);
+				controlifExceedSearchField(perturbedPosition, y);
+			}
 		}
 
-		void increaseTrial(Bees bees, int i)
+			__device__ int chooseIndex(int i, curandState *randState)
+			{
+				int index;
+				do
+					//index = (rand() % (SN - 0)) + 0;
+					index = chooseRandomValueBetweenRange(0, SN, randState);
+				while (index == i);
+
+				return index;
+			}
+
+			__device__ void controlifExceedSearchField(float newPosition[], int y)
+			{
+				if (newPosition[y] > MAX_SEARCH_RANGE)
+					newPosition[y] = MAX_SEARCH_RANGE;
+				else if (newPosition[y] < MIN_SEARCH_RANGE)
+					newPosition[y] = MIN_SEARCH_RANGE;
+			}
+
+		__device__ void chooseBestPosition(Bees bees, int i, float perturbedPosition[])
 		{
-			int trial = getTrial(bees, i);
-			setTrial(bees, i, trial+1);
+			float perturbedFitness = evaluateFitness(perturbedPosition);
+
+			if (isPerturbedFitnessBetter(bees, i, perturbedFitness))
+				replacePosition(bees, i, perturbedPosition, perturbedFitness);	
+			else
+				increaseTrial(bees, i);
 		}
-*/
+
+			__device__ BOOL isPerturbedFitnessBetter(Bees bees, int i, float perturbedFitness)
+			{
+				return getFitness(bees, i) > perturbedFitness;
+			}
+
+			__device__ void replacePosition(Bees bees, int i, float perturbedPosition[], float perturbedFitness)
+			{
+				setPosition(bees, i, perturbedPosition);
+				setFitness(bees, i, perturbedFitness);
+				setTrial(bees, i, 0);
+			}
+
+			__device__ void increaseTrial(Bees bees, int i)
+			{
+				int trial = getTrial(bees, i);
+				setTrial(bees, i, trial+1);
+			}
