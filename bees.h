@@ -40,18 +40,19 @@ __global__ void cudaEmployedPlacement(Bees bees, curandState *randState);
 			__device__ float chooseRandomValueBetweenRange(float lowerBound, float upperBound, curandState *randState);
 		__device__ float evaluateFitness(float position[]);
 
+
+__global__ void cudaOnlookerPlacement(Bees bees, curandState *randState);
+	__device__ void onlookerPlacement(Bees bees, int i, curandState *randState);
+//		void generateEmployedP(Bees bees, int i);
+//			float calcolateP(Bees bees, int i);
+		__device__ void chooseOnlookerPosition(Bees bees, int i, curandState *randState);
+//			int rouletteWheelEmployedSelection(Bees bees);
+			__device__ int tournamentEmployedSelection(Bees bees, curandState *randState);
+				__device__ int winnerTournament(Bees bees, int tournamentIndex[]);
+			__device__ void moveOnlookerInPosition(Bees bees, int i, int selectedEmployed);
+		__device__ BOOL isUnassignedOnlooker(Bees bees, int i);
+
 /*
-void onlookerPlacement(Bees bees, int i);
-	void generateEmployedP(Bees bees, int i);
-		float calcolateP(Bees bees, int i);
-	void chooseOnlookerPosition(Bees bees, int i);
-//		int rouletteWheelEmployedSelection(Bees bees);
-		int tournamentEmployedSelection(Bees bees);
-			int winnerTournament(Bees bees, int tournamentIndex[]);
-		void moveOnlookerInPosition(Bees bees, int i, int selectedEmployed);
-	BOOL isUnassignedOnlooker(Bees bees, int i);
-
-
 void foodExploitation(Bees bees, int i, curandState *randState);
 	BOOL hasExceededTheLimit(Bees bees, int i);
 	void resetBee(Bees bees, int i, curandState *randState);
@@ -65,16 +66,16 @@ void foodExploitation(Bees bees, int i, curandState *randState);
 		void increaseTrial(Bees bees, int i);
 */	
 
-void setType(Bees bees, int i, unsigned int newType);
+__host__ __device__ void setType(Bees bees, int i, unsigned int newType);
 __host__ __device__ unsigned int getType(Bees bees, int i);
 __device__ void setTrial(Bees bees, int i, int newTrial);
 int getTrial(Bees bees, int i);
 __device__ void setFitness(Bees bees, int i, float newFitness);
-float getFitness(Bees bees, int i);
+__host__ __device__ float getFitness(Bees bees, int i);
 //void setP(Bees bees, int i, float newP);
 //float getP(Bees bees, int i);
-void setPosition(Bees bees, int i, float newPosition[]);
-float *getPosition(Bees bees, int i);
+__device__ void setPosition(Bees bees, int i, float newPosition[]);
+__device__ float *getPosition(Bees bees, int i);
 			
 
 #endif

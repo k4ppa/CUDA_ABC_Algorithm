@@ -25,7 +25,7 @@ struct twoBit
 };
 typedef struct twoBit Flag;
 
-void setBits(Flag *type, unsigned int newBits);
+__host__ __device__ void setBits(Flag *type, unsigned int newBits);
 __host__ __device__ unsigned int getBits(Flag *type);
 
 #endif

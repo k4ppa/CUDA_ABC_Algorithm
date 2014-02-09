@@ -1,6 +1,6 @@
 #include "types.h"
 
-void setBits(Flag *type, unsigned int newBits)
+__host__ __device__ void setBits(Flag *type, unsigned int newBits)
 {
 	(*type).bits = newBits;
 }

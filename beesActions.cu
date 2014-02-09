@@ -64,95 +64,104 @@ __global__ void cudaEmployedPlacement(Bees bees, curandState *randState)
 			return fabs(fitness);
 		}
 		
-			
-/*
-void onlookerPlacement(Bees bees, int i)
+
+
+
+__global__ void cudaOnlookerPlacement(Bees bees, curandState *randState)
 {
-	//generateEmployedP(bees, i);
-	if (isUnassignedOnlooker(bees, i))
-	{
-		chooseOnlookerPosition(bees, i);
-		setTrial(bees, i, 0);
-		setType(bees, i, ASSIGNED_ONLOOKER);
-	}
+	int i = threadIdx.x;
+	onlookerPlacement(bees, i, randState);
 }
 
-	void generateEmployedP(Bees bees, int i)
+	__device__ void onlookerPlacement(Bees bees, int i, curandState *randState)
 	{
-		float newP;
-		if (isEmployed(bees, i)) 
-			newP = calcolateP(bees, i);
-			setP(bees, i, newP);
+		//generateEmployedP(bees, i);
+		if (isUnassignedOnlooker(bees, i))
+		{
+			chooseOnlookerPosition(bees, i, randState);
+			setTrial(bees, i, 0);
+			setType(bees, i, ASSIGNED_ONLOOKER);
+		}
 	}
+	/*
+		void generateEmployedP(Bees bees, int i)
+		{
+			float newP;
+			if (isEmployed(bees, i)) 
+				newP = calcolateP(bees, i);
+				setP(bees, i, newP);
+		}
 	
-		float calcolateP(Bees bees, int i)
-		{
-			float fitnessSummation = 0.0;
-			int y;
-			for (y=0; y<NUMBER_OF_EMPLOYED; y++)
-				fitnessSummation = fitnessSummation + getFitness(bees, i);
-			return getFitness(bees, i) / fitnessSummation;
-		}
-
-	BOOL isUnassignedOnlooker(Bees bees, int i)
-	{
-		return getType(bees, i) == UNASSIGNED_ONLOOKER;
-	}
-
-	void chooseOnlookerPosition(Bees bees, int i)
-	{
-		int selectedEmployed = tournamentEmployedSelection(bees);
-		moveOnlookerInPosition(bees, i, selectedEmployed);
-	}
-
-		int rouletteWheelEmployedSelection(Bees bees)
-		{
-			float totalFitness = getFitness(bees, 0);
-			int y;
-			for (y=1; y<NUMBER_OF_EMPLOYED; y++)
+			float calcolateP(Bees bees, int i)
 			{
-				totalFitness = totalFitness + getFitness(bees, y);
-				if (chooseRandomValueBetweenRange(0.0f, 1.0f) < getFitness(bees, y) / totalFitness)
-					return y;
+				float fitnessSummation = 0.0;
+				int y;
+				for (y=0; y<NUMBER_OF_EMPLOYED; y++)
+					fitnessSummation = fitnessSummation + getFitness(bees, i);
+				return getFitness(bees, i) / fitnessSummation;
 			}
-			return 0;
-		}
-
-		int tournamentEmployedSelection(Bees bees)
+	*/
+		__device__ BOOL isUnassignedOnlooker(Bees bees, int i)
 		{
-			int tournamentIndex[calcolateTournamentSize()];
-			int i;
-			
-			for (i=0; i<calcolateTournamentSize(); i++)
-				tournamentIndex[i] = (rand() % (NUMBER_OF_EMPLOYED - 0)) + 0;
-
-			return winnerTournament(bees, tournamentIndex);
+			return getType(bees, i) == UNASSIGNED_ONLOOKER;
 		}
 
-			int winnerTournament(Bees bees, int tournamentIndex[])
+		__device__ void chooseOnlookerPosition(Bees bees, int i, curandState *randState)
+		{
+			int selectedEmployed = tournamentEmployedSelection(bees, randState);
+			moveOnlookerInPosition(bees, i, selectedEmployed);
+		}
+	/*
+			int rouletteWheelEmployedSelection(Bees bees)
 			{
-				int i;
-				int winnerBee = tournamentIndex[0];
-				double winnerFitness = getFitness(bees, tournamentIndex[0]);
-				for (i=1; i<calcolateTournamentSize(); i++)
+				float totalFitness = getFitness(bees, 0);
+				int y;
+				for (y=1; y<NUMBER_OF_EMPLOYED; y++)
 				{
-					if (getFitness(bees, tournamentIndex[i]) < winnerFitness)
-					{
-						winnerFitness = getFitness(bees, tournamentIndex[i]);
-						winnerBee = tournamentIndex[i];
-					}
+					totalFitness = totalFitness + getFitness(bees, y);
+					if (chooseRandomValueBetweenRange(0.0f, 1.0f) < getFitness(bees, y) / totalFitness)
+						return y;
 				}
-				return winnerBee;
+				return 0;
+			}
+	*/
+			__device__ int tournamentEmployedSelection(Bees bees, curandState *randState)
+			{
+				int tournamentIndex[calcolateTournamentSize()];
+				int i;
+			
+				for (i=0; i<calcolateTournamentSize(); i++)
+					tournamentIndex[i] = chooseRandomValueBetweenRange(0, NUMBER_OF_EMPLOYED, randState);
+					//tournamentIndex[i] = (rand() % (NUMBER_OF_EMPLOYED - 0)) + 0;
+
+				return winnerTournament(bees, tournamentIndex);
 			}
 
-		void moveOnlookerInPosition(Bees bees, int i, int selectedEmployed)
-		{
-			setPosition(bees, i, getPosition(bees, selectedEmployed));
-			setFitness(bees, i, getFitness(bees, selectedEmployed));
-		}
+				__device__ int winnerTournament(Bees bees, int tournamentIndex[])
+				{
+					int i;
+					int winnerBee = tournamentIndex[0];
+					double winnerFitness = getFitness(bees, tournamentIndex[0]);
+
+					for (i=1; i<calcolateTournamentSize(); i++)
+					{
+						if (getFitness(bees, tournamentIndex[i]) < winnerFitness)
+						{
+							winnerFitness = getFitness(bees, tournamentIndex[i]);
+							winnerBee = tournamentIndex[i];
+						}
+					}
+					return winnerBee;
+				}
+
+			__device__ void moveOnlookerInPosition(Bees bees, int i, int selectedEmployed)
+			{
+				setPosition(bees, i, getPosition(bees, selectedEmployed));
+				setFitness(bees, i, getFitness(bees, selectedEmployed));
+			}
 	
 
-
+/*
 void foodExploitation(Bees bees, int i, curandState *randState)
 {
 	if (hasExceededTheLimit(bees, i))

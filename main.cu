@@ -36,18 +36,17 @@ int main()
 	cudaMemcpy(dev_bees, bees, sizeof(struct bees), cudaMemcpyHostToDevice);
 	inizializeBees(dev_bees, dev_randState);
 
-	cudaMemcpy(bees, dev_bees, sizeof(struct bees), cudaMemcpyDeviceToHost);
-	printBees(bees);
-/*
-	for (cycles=0; cycles<MAX_CYCLES; cycles++) 
-	{
-		beesWork(bees);
-		cudaMemcpy(bees, dev_bees, sizeof(Bees), cudaMemcpyDeviceToHost);
-		saveBestPosition(bestBee, bees);
-	}
+	//printBees(bees);
 
-	printBestBee(bestBee);
-*/
+	//for (cycles=0; cycles<MAX_CYCLES; cycles++) 
+	//{
+		beesWork(dev_bees, dev_randState);
+		cudaMemcpy(bees, dev_bees, sizeof(struct bees), cudaMemcpyDeviceToHost);
+		//saveBestPosition(bestBee, bees);
+	//}
+	printBees(bees);
+	//printBestBee(bestBee);
+
 	finishTimer(begin);
 
 	cudaFree(dev_bees);

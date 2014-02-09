@@ -9,20 +9,21 @@ void inizializeBees(Bees dev_bees, curandState *dev_randState)
 }
 
 
-/*
-void beesWork(Bees bees)
+
+void beesWork(Bees dev_bees, curandState *dev_randState)
 {
-	assignEmployed(bees);
-	beesSearch(bees);
+	assignEmployed(dev_bees, dev_randState);
+	//beesSearch(bees);
 }
 
-	void assignEmployed(Bees bees)
+	void assignEmployed(Bees dev_bees, curandState *dev_randState)
 	{
-		int i;
+		/*int i;
 		for (i=NUMBER_OF_ONLOOKER; i<SN; i++)
-			onlookerPlacement(bees, i);
+			onlookerPlacement(bees, i);*/
+		cudaOnlookerPlacement<<<1, SN>>>(dev_bees, dev_randState);
 	}
-
+/*
 	void beesSearch(Bees bees)
 	{
 		int i;
