@@ -47,7 +47,7 @@ __device__ void setPosition(Bees bees, int i, float newPosition[])
 		bees->positions[i][y] = newPosition[y];
 }
 
-__device__ float *getPosition(Bees bees, int i)
+__host__ __device__ float *getPosition(Bees bees, int i)
 {
 	return bees->positions[i];
 }

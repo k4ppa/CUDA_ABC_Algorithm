@@ -76,7 +76,7 @@ __host__ __device__ float getFitness(Bees bees, int i);
 //void setP(Bees bees, int i, float newP);
 //float getP(Bees bees, int i);
 __device__ void setPosition(Bees bees, int i, float newPosition[]);
-__device__ float *getPosition(Bees bees, int i);
+__host__ __device__ float *getPosition(Bees bees, int i);
 			
 
 #endif
