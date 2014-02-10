@@ -2,7 +2,7 @@
 
 #if FUNCTION == NON_CONTINUOUS_RASTRIGIN
 
-float formulae(float values[])
+__device__ float formulae(float values[])
 {
 	float result = 0.0;
 	float partialResult, value;
@@ -19,14 +19,14 @@ float formulae(float values[])
 	return result;
 }
 
-	float calculateValue(float value)
+	__device__ float calculateValue(float value)
 	{
 		if (fabs(value) >= 0.5)
 			return (2 * (float) round(value)) / 2;
 		return value;
 	}
 
-		int round(float number)
+		__device__ int round(float number)
 		{
 			return (number >= 0) ? (int)(number + 0.5) : (int)(number - 0.5);
 		}

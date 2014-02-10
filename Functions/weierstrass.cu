@@ -2,13 +2,13 @@
 
 #if FUNCTION == WEIERSTRASS
 
-float formulae(float values[])
+__device__ float formulae(float values[])
 {
 	double result = D * secondCalculation();
 	return firstCalculation(values) - result;
 }
 
-	float firstCalculation(float values[])
+	__device__ float firstCalculation(float values[])
 	{
 		float result = 0.0;
 		float num;
@@ -21,12 +21,12 @@ float formulae(float values[])
 		return result;
 	}
 
-	float secondCalculation()
+	__device__ float secondCalculation()
 	{
 		return calcolateSummation(0.5);
 	}
 
-	float calcolateSummation(float num)
+	__device__ float calcolateSummation(float num)
 	{
 		float result = 0.0;
 		float partialResult;

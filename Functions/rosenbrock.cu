@@ -2,7 +2,7 @@
 
 #if FUNCTION == ROSENBROCK
 
-float formulae(float values[])
+__device__ float formulae(float values[])
 {
 	float result = 0.0;
 	float partialResult1, partialResult2;

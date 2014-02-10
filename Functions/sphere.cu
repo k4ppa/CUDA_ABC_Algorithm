@@ -2,7 +2,7 @@
 
 #if FUNCTION == SPHERE
 
-float formulae(float values[])
+__device__ float formulae(float values[])
 {
 	float result = 0.0;
 	int i;

@@ -2,12 +2,12 @@
 
 #if FUNCTION == ACKLEY
 
-float formulae(float values[])
+__device__ float formulae(float values[])
 {	
 	return firstCalculation(values) - secondCalculation(values) + 20 + (float) M_E;
 }
 
-	float firstCalculation(float values[])
+	__device__ float firstCalculation(float values[])
 	{
 		float partialResult = 0.0;
 		int i;
@@ -19,7 +19,7 @@ float formulae(float values[])
 		return partialResult;
 	}
 
-	float secondCalculation(float values[])
+	__device__ float secondCalculation(float values[])
 	{
 		float result = 0.0;
 		int i;

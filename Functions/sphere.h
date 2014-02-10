@@ -8,7 +8,7 @@
 	#define MIN_SEARCH_RANGE -100.0
 	#define MAX_SEARCH_RANGE 100.0
 
-	float formulae(float values[]);
+	__device__ float formulae(float values[]);
 
 #endif
 #endif

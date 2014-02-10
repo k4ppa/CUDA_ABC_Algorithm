@@ -3,7 +3,7 @@
 
 #if FUNCTION == GRIEWANK
 
-float formulae(float values[])
+__device__ float formulae(float values[])
 {
 	float result, partialResult;
 	result = calculateSummation(values) / 4000;
@@ -12,7 +12,7 @@ float formulae(float values[])
 	return result + partialResult + 1.0;
 }
 
-	float calculateSummation(float values[])
+	__device__ float calculateSummation(float values[])
 	{
 		float result = 0.0;
 		int i;
@@ -21,7 +21,7 @@ float formulae(float values[])
 		return result;
 	}
 
-	float calculateProductsOfSequences(float values[])
+	__device__ float calculateProductsOfSequences(float values[])
 	{
 		float result = 1.0;
 		float partialResult;

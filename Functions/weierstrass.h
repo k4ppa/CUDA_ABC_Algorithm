@@ -11,10 +11,10 @@
 	#define MIN_SEARCH_RANGE -0.5
 	#define MAX_SEARCH_RANGE 0.5
 
-	float formulae(float values[]);
-		float firstCalculation(float values[]);
-		float secondCalculation();
-		float calcolateSummation(float num);
+	__device__ float formulae(float values[]);
+		__device__ float firstCalculation(float values[]);
+		__device__ float secondCalculation();
+		__device__ float calcolateSummation(float num);
 
 #endif
 #endif
