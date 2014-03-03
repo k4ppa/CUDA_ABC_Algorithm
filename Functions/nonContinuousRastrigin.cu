@@ -22,11 +22,11 @@ __device__ float formulae(float values[])
 	__device__ float calculateValue(float value)
 	{
 		if (fabs(value) >= 0.5)
-			return (2 * (float) round(value)) / 2;
+			return (2 * (float) round2(value)) / 2;
 		return value;
 	}
 
-		__device__ int round(float number)
+		__device__ int round2(float number)
 		{
 			return (number >= 0) ? (int)(number + 0.5) : (int)(number - 0.5);
 		}

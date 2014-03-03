@@ -13,7 +13,7 @@
 
 	__device__ float formulae(float values[]);
 		__device__ float calculateValue(float value);
-			__device__ int round(float number);
+			__device__ int round2(float number);
 
 #endif
 #endif

@@ -1,5 +1,5 @@
 #include "bees.h"
-
+#include "stdio.h"
 void initializeType(Bees bees)
 {
 	int i;
@@ -18,7 +18,7 @@ void initializeType(Bees bees)
 
 __global__ void cudaEmployedPlacement(Bees bees, curandState *randState)
 {
-	int i = threadIdx.x;
+	int i = blockIdx.x * blockDim.x + threadIdx.x;
 	employedPlacement(bees, i, randState);
 }
 
@@ -44,8 +44,10 @@ __global__ void cudaEmployedPlacement(Bees bees, curandState *randState)
 		__device__ void generateNewPosition(Bees bees, int i, curandState *randState)
 		{
 			int y;
-			for (y=0; y<D; y++)
+			for (y=0; y<D; y++) {
 				bees->positions[i][y] = chooseRandomValueBetweenRange(MIN_SEARCH_RANGE, MAX_SEARCH_RANGE, randState);
+				//printf("\n%f\n", bees->positions[i][y]);
+			}
 		}
 
 			__device__ float chooseRandomValueBetweenRange(float lowerBound, float upperBound, curandState *randState)
@@ -69,7 +71,7 @@ __global__ void cudaEmployedPlacement(Bees bees, curandState *randState)
 
 __global__ void cudaOnlookerPlacement(Bees bees, curandState *randState)
 {
-	int i = threadIdx.x;
+	int i = blockIdx.x * blockDim.x + threadIdx.x;
 	onlookerPlacement(bees, i, randState);
 }
 
@@ -164,7 +166,7 @@ __global__ void cudaOnlookerPlacement(Bees bees, curandState *randState)
 
 __global__ void cudaFoodExploitation(Bees bees, curandState *randState)
 {
-	int i = threadIdx.x;
+	int i = blockIdx.x * blockDim.x + threadIdx.x;
 	foodExploitation(bees, i, randState);
 }
 
